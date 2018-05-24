@@ -12,6 +12,9 @@ import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
 
 public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
+    public static final String STRING_URL = "https://rss.itunes.apple.com/api/v1/es/itunes-music/top-songs/all/100/non-explicit.json";
+    public static final String KEY_LIST = "list";
+    public static final String KEY_TITTLE = "tittle";
 
     private ViewPager tabsviewPager;
     private ActionBar mActionBar;
