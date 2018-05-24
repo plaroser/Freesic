@@ -1,4 +1,4 @@
-package es.sergiopla.freesic;
+package es.sergiopla.freesic.adapters.tabs;
 
 /**
  * Created by Sergio on 5/24/2018.
@@ -7,6 +7,10 @@ package es.sergiopla.freesic;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+
+import es.sergiopla.freesic.fragment.Communityfragment;
+import es.sergiopla.freesic.fragment.Friendsfragment;
+import es.sergiopla.freesic.fragment.PublicprofileFragment;
 
 public class Tabsadapter  extends FragmentStatePagerAdapter{
 

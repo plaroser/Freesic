@@ -1,4 +1,4 @@
-package es.sergiopla.freesic;
+package es.sergiopla.freesic.fragment;
 
 /**
  * Created by Sergio on 5/24/2018.
@@ -10,14 +10,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import es.sergiopla.freesic.R;
 
-public class Friendsfragment extends Fragment {
 
+public class PublicprofileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        View view = inflater.inflate(R.layout.friendsview, container, false);
+        View view = inflater.inflate(R.layout.publicprofileview, container, false);
 
         return view;
     }

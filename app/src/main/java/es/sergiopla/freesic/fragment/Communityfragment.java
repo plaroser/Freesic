@@ -1,4 +1,4 @@
-package es.sergiopla.freesic;
+package es.sergiopla.freesic.fragment;
 
 /**
  * Created by Sergio on 5/24/2018.
@@ -9,6 +9,8 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import es.sergiopla.freesic.R;
 
 
 public class Communityfragment extends Fragment {

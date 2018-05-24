@@ -1,4 +1,5 @@
-package es.sergiopla.freesic;
+package es.sergiopla.freesic.views;
+
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
@@ -7,7 +8,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener{
+import es.sergiopla.freesic.R;
+import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
+
+public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
 
     private ViewPager tabsviewPager;
     private ActionBar mActionBar;
@@ -18,7 +22,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        tabsviewPager = (ViewPager) findViewById(R.id.tabspager);
+        tabsviewPager = findViewById(R.id.tabspager);
 
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
 
@@ -26,7 +30,8 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+        getSupportActionBar().setDisplayShowHomeEnabled(false);     // hides action bar icon
+        getSupportActionBar().setDisplayShowTitleEnabled(false);    // hides action bar title
         Tab friendstab = getSupportActionBar().newTab().setText("Friends").setTabListener(this);
         Tab publicprofiletab = getSupportActionBar().newTab().setText("Public").setTabListener(this);
         Tab communitytab = getSupportActionBar().newTab().setText("Community").setTabListener(this);
