@@ -8,8 +8,11 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.AppCompatActivity;
 
+import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
+
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
+import es.sergiopla.freesic.helpers.PlayerConfig;
 
 public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
     public static final String STRING_URL = "https://rss.itunes.apple.com/api/v1/es/itunes-music/top-songs/all/100/non-explicit.json";
@@ -19,17 +22,18 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     private ViewPager tabsviewPager;
     private ActionBar mActionBar;
     private Tabsadapter mTabsAdapter;
+    private YouTubePlayerView youTubePlayerView;
+    private PlayerConfig playerConfig;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         tabsviewPager = findViewById(R.id.tabspager);
-
+        youTubePlayerView = findViewById(R.id.youtube_player_view);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
-
         tabsviewPager.setAdapter(mTabsAdapter);
+        playerConfig = new PlayerConfig(youTubePlayerView, this);
 
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -66,6 +70,10 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             }
         });
 
+    }
+
+    public void playVideo(String idVideo) {
+        playerConfig.playVideo(idVideo);
     }
 
     @Override

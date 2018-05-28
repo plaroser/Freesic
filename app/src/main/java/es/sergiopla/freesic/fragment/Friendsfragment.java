@@ -14,15 +14,12 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import java.util.List;
 
 import es.sergiopla.freesic.R;
-import es.sergiopla.freesic.tasks.SearchYouTube;
 import es.sergiopla.freesic.models.Song;
-import es.sergiopla.freesic.models.VideoItem;
 import es.sergiopla.freesic.tasks.ChargeSongListTask;
+import es.sergiopla.freesic.tasks.SearchYouTube;
+import es.sergiopla.freesic.views.MainActivity;
 
 
 public class Friendsfragment extends Fragment {
@@ -61,7 +58,7 @@ public class Friendsfragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song song = (Song) listViewSongs.getItemAtPosition(position);
                 String itemTitle = song.getTitle();
-                searchYouTube = new SearchYouTube(context, itemTitle);
+                searchYouTube = new SearchYouTube(context, itemTitle, ((MainActivity) getActivity()));
                 searchYouTube.execute();
             }
         });

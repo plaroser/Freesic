@@ -20,6 +20,7 @@ import java.util.List;
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.helpers.PlayerConfig;
 import es.sergiopla.freesic.models.VideoItem;
+import es.sergiopla.freesic.views.MainActivity;
 
 /**
  * Created by Sergio on 5/28/2018.
@@ -31,11 +32,12 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
     private Context context;
     private String keywords;
     VideoItem videoItem;
+    MainActivity activity;
 
-
-    public SearchYouTube(Context content, String keywords) {
+    public SearchYouTube(Context content, String keywords, MainActivity activity) {
         this.context = content;
         this.keywords = keywords;
+        this.activity = activity;
         youtubeConnector(content);
     }
 
@@ -100,7 +102,8 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, videoItem.getTitle() + "|" + videoItem.getThumbnailURL(), Toast.LENGTH_LONG).show();
+        Toast.makeText(context, videoItem.getTitle() + "|" + videoItem.getId(), Toast.LENGTH_LONG).show();
         super.onPostExecute(result);
+        activity.playVideo(videoItem.getId());
     }
 }
