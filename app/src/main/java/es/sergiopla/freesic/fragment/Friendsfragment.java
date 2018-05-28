@@ -14,8 +14,14 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.List;
 
 import es.sergiopla.freesic.R;
+import es.sergiopla.freesic.tasks.SearchYouTube;
+import es.sergiopla.freesic.models.Song;
+import es.sergiopla.freesic.models.VideoItem;
 import es.sergiopla.freesic.tasks.ChargeSongListTask;
 
 
@@ -24,9 +30,10 @@ public class Friendsfragment extends Fragment {
     private TextView textViewTitulo;
     private ListView listViewSongs;
     private Context context;
+    private SearchYouTube searchYouTube;
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.friendsview, container, false);
@@ -52,8 +59,10 @@ public class Friendsfragment extends Fragment {
         listViewSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent i = new Intent(MainActivity.this, PlayerActivity.class);
-//                startActivity(i);
+                Song song = (Song) listViewSongs.getItemAtPosition(position);
+                String itemTitle = song.getTitle();
+                searchYouTube = new SearchYouTube(context, itemTitle);
+                searchYouTube.execute();
             }
         });
         return view;

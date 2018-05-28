@@ -1,4 +1,4 @@
-package es.sergiopla.freesic.models;
+package es.sergiopla.freesic.helpers;
 
 public class WebService {
 //    private void getWebsite() {
