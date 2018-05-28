@@ -58,6 +58,8 @@ public class Friendsfragment extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song song = (Song) listViewSongs.getItemAtPosition(position);
                 String itemTitle = song.getTitle();
+                MainActivity.listSize = listViewSongs.getLeft();
+                MainActivity.currentSong = position;
                 searchYouTube = new SearchYouTube(context, itemTitle, ((MainActivity) getActivity()));
                 searchYouTube.execute();
             }

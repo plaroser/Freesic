@@ -7,6 +7,8 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageButton;
 
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
 
@@ -18,12 +20,14 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     public static final String STRING_URL = "https://rss.itunes.apple.com/api/v1/es/itunes-music/top-songs/all/100/non-explicit.json";
     public static final String KEY_LIST = "list";
     public static final String KEY_TITTLE = "tittle";
+    public static int listSize, currentSong;
 
     private ViewPager tabsviewPager;
     private ActionBar mActionBar;
     private Tabsadapter mTabsAdapter;
     private YouTubePlayerView youTubePlayerView;
     private PlayerConfig playerConfig;
+    private ImageButton imageButtonNext, imageButtonPlayPause, imageButtonPrevious;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +35,14 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         setContentView(R.layout.activity_main);
         tabsviewPager = findViewById(R.id.tabspager);
         youTubePlayerView = findViewById(R.id.youtube_player_view);
+        imageButtonPrevious = findViewById(R.id.imageButtonPrevious);
+        imageButtonPlayPause = findViewById(R.id.imageButtonPlayPause);
+        imageButtonNext = findViewById(R.id.imageButtonNext);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
         tabsviewPager.setAdapter(mTabsAdapter);
         playerConfig = new PlayerConfig(youTubePlayerView, this);
+        imageButtonNext.setEnabled(false);
+        imageButtonPrevious.setEnabled(false);
 
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -47,6 +56,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         getSupportActionBar().addTab(publicprofiletab);
         getSupportActionBar().addTab(communitytab);
 
+        imageButtonPlayPause.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                playPauseVideo();
+            }
+        });
 
         //This helps in providing swiping effect for v7 compat library
         tabsviewPager.setOnPageChangeListener(new OnPageChangeListener() {
@@ -73,7 +87,15 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     }
 
     public void playVideo(String idVideo) {
-        playerConfig.playVideo(idVideo);
+        playerConfig.loadVideo(idVideo);
+    }
+
+    public void playPauseVideo() {
+        if (playerConfig.isPlaying()) {
+            playerConfig.pauseVideo();
+        } else {
+            playerConfig.playVideo();
+        }
     }
 
     @Override
