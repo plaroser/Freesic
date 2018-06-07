@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         imageButtonNext = findViewById(R.id.imageButtonNext);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
         tabsviewPager.setAdapter(mTabsAdapter);
-        playerConfig = new PlayerConfig(youTubePlayerView, this);
+        playerConfig = new PlayerConfig(youTubePlayerView);
         imageButtonNext.setEnabled(false);
         imageButtonPrevious.setEnabled(false);
 

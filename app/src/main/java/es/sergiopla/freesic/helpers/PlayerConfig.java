@@ -1,7 +1,5 @@
 package es.sergiopla.freesic.helpers;
 
-import android.content.Context;
-
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener;
@@ -11,24 +9,23 @@ public class PlayerConfig {
     private boolean isPlaying;
     public static final String API_KEY = "AIzaSyDz1pqkPjClj58_X05H1zgNSyahW3CICE8";
 
-    YouTubePlayerView youTubePlayerView;
-    Context context;
+    private YouTubePlayerView youTubePlayerView;
+    private YouTubePlayer youTubePlayer;
 
-    public PlayerConfig(YouTubePlayerView youTubePlayerView, Context context) {
+    public PlayerConfig(YouTubePlayerView youTubePlayerView) {
         this.youTubePlayerView = youTubePlayerView;
-        this.context = context;
         this.isPlaying = false;
     }
 
-    public void loadVideo(String videoId) {
-        final String idVideo = videoId;
+    public void loadVideo(final String videoId) {
         youTubePlayerView.initialize(new YouTubePlayerInitListener() {
             @Override
             public void onInitSuccess(final YouTubePlayer initializedYouTubePlayer) {
                 initializedYouTubePlayer.addListener(new AbstractYouTubePlayerListener() {
                     @Override
                     public void onReady() {
-                        initializedYouTubePlayer.loadVideo(idVideo, 0);
+                        youTubePlayer = initializedYouTubePlayer;
+                        initializedYouTubePlayer.loadVideo(videoId, 0);
                         isPlaying = true;
                     }
                 });
@@ -37,32 +34,13 @@ public class PlayerConfig {
     }
 
     public void pauseVideo() {
-        youTubePlayerView.initialize(new YouTubePlayerInitListener() {
-            @Override
-            public void onInitSuccess(final YouTubePlayer initializedYouTubePlayer) {
-                initializedYouTubePlayer.addListener(new AbstractYouTubePlayerListener() {
-                    @Override
-                    public void onReady() {
-                        isPlaying = false;
-                    }
-                });
-            }
-        }, true);
+        youTubePlayer.pause();
+        isPlaying = false;
     }
 
     public void playVideo() {
-        youTubePlayerView.initialize(new YouTubePlayerInitListener() {
-            @Override
-            public void onInitSuccess(final YouTubePlayer initializedYouTubePlayer) {
-                initializedYouTubePlayer.addListener(new AbstractYouTubePlayerListener() {
-                    @Override
-                    public void onReady() {
-                        initializedYouTubePlayer.play();
-                        isPlaying = true;
-                    }
-                });
-            }
-        }, true);
+        youTubePlayer.play();
+        isPlaying = true;
     }
 
     public boolean isPlaying() {
