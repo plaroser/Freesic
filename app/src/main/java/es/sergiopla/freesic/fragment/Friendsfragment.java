@@ -44,12 +44,12 @@ public class Friendsfragment extends Fragment {
         buttonGetWeb = view.findViewById(R.id.buttonGetWeb);
         textViewTitulo = view.findViewById(R.id.textViewTittle);
         listViewSongs = view.findViewById(R.id.listViewSongs);
-
+        cargarLista();
 
         buttonGetWeb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                new ChargeSongListTask(context, listViewSongs, textViewTitulo).execute();
+                cargarLista();
             }
         });
 
@@ -65,5 +65,9 @@ public class Friendsfragment extends Fragment {
             }
         });
         return view;
+    }
+
+    private void cargarLista() {
+        new ChargeSongListTask(context, listViewSongs, textViewTitulo).execute();
     }
 }
