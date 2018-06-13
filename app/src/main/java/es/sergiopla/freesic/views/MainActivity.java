@@ -55,9 +55,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         imageButtonNext = findViewById(R.id.imageButtonNext);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
         tabsviewPager.setAdapter(mTabsAdapter);
-//        playerConfig = new PlayerConfig(youTubePlayerView);
-        imageButtonNext.setEnabled(true);
-        imageButtonPrevious.setEnabled(false);
 
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -81,8 +78,13 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 nextVideo();
             }
         });
+        imageButtonPrevious.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                prevVideo();
+            }
+        });
 
-        //This helps in providing swiping effect for v7 compat library
         tabsviewPager.setOnPageChangeListener(new OnPageChangeListener() {
 
             @Override
@@ -109,10 +111,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Song song = (Song) listViewSongs.getItemAtPosition(position);
                 String itemTitle = song.getTitle();
-//                MainActivity.listSize = listViewSongs.getLeft();
-//                MainActivity.currentSong = position;
-//                searchYouTube = new SearchYouTube(mainActivity, itemTitle, mainActivity);
-//                searchYouTube.execute();
                 searchVideo(itemTitle, position);
             }
         };
@@ -130,13 +128,24 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         int nextPosition = currentSong + 1;
         if (nextPosition < listSize && nextPosition >= 0) {
             Log.v(LOG_ID, "Siquiente");
-
             Song nextSong = songList.get(nextPosition);
             String nextTitle = nextSong.getTitle();
             Log.v(LOG_ID, "next title: " + nextTitle);
-//            playVideo(nextTitle);
-//            currentSong = nextPosition;
             searchVideo(nextTitle, nextPosition);
+        }
+    }
+
+    public void prevVideo() {
+        int prevPosition = currentSong - 1;
+        if (prevPosition < listSize && prevPosition >= 0) {
+            Log.v(LOG_ID, "Anterior");
+            Song prevSong = songList.get(prevPosition);
+            String prevTitle = prevSong.getTitle();
+            Log.v(LOG_ID, "prev title: " + prevTitle);
+            searchVideo(prevTitle, prevPosition);
+        } else {
+            Log.v(LOG_ID, "No ha sido posible retroceder a la posicion: " + prevPosition + " size: " + listSize);
+
         }
     }
 
