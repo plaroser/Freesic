@@ -1,9 +1,13 @@
 package es.sergiopla.freesic.helpers;
 
+import android.util.Log;
+
 import com.pierfrancescosoffritti.youtubeplayer.player.AbstractYouTubePlayerListener;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayer;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerInitListener;
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
+
+import es.sergiopla.freesic.views.MainActivity;
 
 public class PlayerConfig {
     private boolean isPlaying;
@@ -11,13 +15,16 @@ public class PlayerConfig {
 
     private YouTubePlayerView youTubePlayerView;
     private YouTubePlayer youTubePlayer;
+    private static String videoId;
 
     public PlayerConfig(YouTubePlayerView youTubePlayerView) {
         this.youTubePlayerView = youTubePlayerView;
         this.isPlaying = false;
     }
 
-    public void loadVideo(final String videoId) {
+    public void loadVideo(String videoId) {
+        PlayerConfig.videoId = videoId;
+        youTubePlayer = null;
         youTubePlayerView.initialize(new YouTubePlayerInitListener() {
             @Override
             public void onInitSuccess(final YouTubePlayer initializedYouTubePlayer) {
@@ -25,7 +32,8 @@ public class PlayerConfig {
                     @Override
                     public void onReady() {
                         youTubePlayer = initializedYouTubePlayer;
-                        initializedYouTubePlayer.loadVideo(videoId, 0);
+                        Log.v(MainActivity.LOG_ID, "Cargar video: " + PlayerConfig.videoId);
+                        youTubePlayer.loadVideo(PlayerConfig.videoId, 0);
                         isPlaying = true;
                     }
                 });

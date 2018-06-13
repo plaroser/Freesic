@@ -7,6 +7,7 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
@@ -24,10 +25,12 @@ import es.sergiopla.freesic.models.Song;
 import es.sergiopla.freesic.tasks.SearchYouTube;
 
 public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
+    public static final String LOG_ID = "Freesic_Sergio";
     public static final String STRING_URL = "https://rss.itunes.apple.com/api/v1/es/itunes-music/top-songs/all/100/non-explicit.json";
     public static final String KEY_LIST = "list";
     public static final String KEY_TITTLE = "tittle";
     public static int listSize, currentSong;
+    public static List<Song> songList;
 
     private ViewPager tabsviewPager;
     private ActionBar mActionBar;
@@ -36,7 +39,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     private PlayerConfig playerConfig;
     private ImageButton imageButtonNext, imageButtonPlayPause, imageButtonPrevious;
     private ListView listViewSongs;
-    private List<Song> songList;
     private SearchYouTube searchYouTube;
     private AdapterView.OnItemClickListener onItemClickListenerList;
     private MainActivity mainActivity;
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         imageButtonNext = findViewById(R.id.imageButtonNext);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
         tabsviewPager.setAdapter(mTabsAdapter);
-        playerConfig = new PlayerConfig(youTubePlayerView);
+//        playerConfig = new PlayerConfig(youTubePlayerView);
         imageButtonNext.setEnabled(true);
         imageButtonPrevious.setEnabled(false);
 
@@ -116,8 +118,32 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         };
     }
 
+    public void playPauseVideo() {
+        if (playerConfig.isPlaying()) {
+            playerConfig.pauseVideo();
+        } else {
+            playerConfig.playVideo();
+        }
+    }
+
+    public void nextVideo() {
+        int nextPosition = currentSong + 1;
+        if (nextPosition < listSize && nextPosition >= 0) {
+            Log.v(LOG_ID, "Siquiente");
+
+            Song nextSong = songList.get(nextPosition);
+            String nextTitle = nextSong.getTitle();
+            Log.v(LOG_ID, "next title: " + nextTitle);
+//            playVideo(nextTitle);
+//            currentSong = nextPosition;
+            searchVideo(nextTitle, nextPosition);
+        }
+    }
+
     public void searchVideo(String title, int position) {
-        listSize = listViewSongs.getLeft();
+        Log.v(LOG_ID, "Reproduciendo: " + title);
+
+        listSize = songList.size();
         currentSong = position;
         searchYouTube = new SearchYouTube(mainActivity, title, mainActivity);
         searchYouTube.execute();
@@ -128,25 +154,13 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         playerConfig.loadVideo(idVideo);
     }
 
-    public void playPauseVideo() {
-        if (playerConfig.isPlaying()) {
-            playerConfig.pauseVideo();
-        } else {
-            playerConfig.playVideo();
-        }
-    }
-
-    public void nextVideo() {
-
-    }
-
     public void setListViewSongs(ListView listViewSongs) {
         this.listViewSongs = listViewSongs;
         this.listViewSongs.setOnItemClickListener(onItemClickListenerList);
     }
 
     public void setSongList(List<Song> songList) {
-        this.songList = songList;
+        MainActivity.songList = songList;
     }
 
     @Override

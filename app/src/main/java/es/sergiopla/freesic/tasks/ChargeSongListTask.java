@@ -2,9 +2,9 @@ package es.sergiopla.freesic.tasks;
 
 import android.content.Context;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -46,6 +46,7 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
     protected void onPreExecute() {
         super.onPreExecute();
         songList = new ArrayList<>();
+        Log.v(MainActivity.LOG_ID, "cargando lista ");
     }
 
     protected String doInBackground(String... params) {
@@ -103,7 +104,9 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
         songArrayAdapter = new AdapterSong(context, R.layout.song_item, songList);
         listView.setAdapter(songArrayAdapter);
         textViewTittle.setText(tittle);
-        Toast.makeText(context, "Terminado tamaño: " + songList.size(), Toast.LENGTH_SHORT).show();
+        songList = new ArrayList<>(songList);
+        Log.v(MainActivity.LOG_ID, "List title| " + tittle + " |size| " + songList.size());
+        MainActivity.songList = songList;
     }
 
 

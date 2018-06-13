@@ -71,7 +71,8 @@ public class Friendsfragment extends Fragment {
     }
 
     private void cargarLista() {
-        new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList).execute();
+        ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList);
+        chargeSongListTask.execute();
         mainActivity.setListViewSongs(listViewSongs);
         mainActivity.setSongList(songList);
     }

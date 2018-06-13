@@ -3,7 +3,6 @@ package es.sergiopla.freesic.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.google.api.client.http.HttpRequest;
 import com.google.api.client.http.HttpRequestInitializer;
@@ -45,7 +44,7 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
         youtube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
             @Override
-            public void initialize(HttpRequest hr) throws IOException {
+            public void initialize(HttpRequest hr) {
             }
         }).setApplicationName(this.context.getString(R.string.app_name)).build();
 
@@ -55,12 +54,13 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
             query.setType("video");
             query.setFields("items(id/videoId,snippet/title,snippet/description,snippet/thumbnails/default/url)");
         } catch (IOException e) {
-            Log.d("YC", "Could not initialize: " + e);
+            Log.d(MainActivity.LOG_ID, "Conector YouTube fallida" + e);
         }
     }
 
     private List<VideoItem> search(String keywords) {
         query.setQ(keywords);
+        Log.v(MainActivity.LOG_ID, "Buscando video: " + keywords);
         try {
             SearchListResponse response = query.execute();
             List<SearchResult> results = response.getItems();
@@ -76,7 +76,7 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
             }
             return items;
         } catch (IOException e) {
-            Log.d("YC", "Could not search: " + e);
+            Log.d(MainActivity.LOG_ID, "Could not search: " + e);
             return null;
         }
     }
@@ -102,7 +102,8 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-        Toast.makeText(context, videoItem.getTitle() + "|" + videoItem.getId(), Toast.LENGTH_LONG).show();
+//        Toast.makeText(context, videoItem.getTitle() + "|" + videoItem.getId(), Toast.LENGTH_LONG).show();
+        Log.v(MainActivity.LOG_ID, "Resultado busqueda: " + videoItem.getTitle() + " | " + videoItem.getId());
         super.onPostExecute(result);
         activity.playVideo(videoItem.getId());
     }
