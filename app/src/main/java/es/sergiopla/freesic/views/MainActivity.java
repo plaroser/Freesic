@@ -8,13 +8,20 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageButton;
+import android.widget.ListView;
 
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
 
+import java.util.List;
+
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
+import es.sergiopla.freesic.fragment.Friendsfragment;
 import es.sergiopla.freesic.helpers.PlayerConfig;
+import es.sergiopla.freesic.models.Song;
+import es.sergiopla.freesic.tasks.SearchYouTube;
 
 public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
     public static final String STRING_URL = "https://rss.itunes.apple.com/api/v1/es/itunes-music/top-songs/all/100/non-explicit.json";
@@ -28,10 +35,16 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     private YouTubePlayerView youTubePlayerView;
     private PlayerConfig playerConfig;
     private ImageButton imageButtonNext, imageButtonPlayPause, imageButtonPrevious;
+    private ListView listViewSongs;
+    private List<Song> songList;
+    private SearchYouTube searchYouTube;
+    private AdapterView.OnItemClickListener onItemClickListenerList;
+    private MainActivity mainActivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mainActivity = this;
         setContentView(R.layout.activity_main);
         tabsviewPager = findViewById(R.id.tabspager);
         youTubePlayerView = findViewById(R.id.youtube_player_view);
@@ -41,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
         tabsviewPager.setAdapter(mTabsAdapter);
         playerConfig = new PlayerConfig(youTubePlayerView);
-        imageButtonNext.setEnabled(false);
+        imageButtonNext.setEnabled(true);
         imageButtonPrevious.setEnabled(false);
 
         getSupportActionBar().setHomeButtonEnabled(false);
@@ -59,6 +72,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         imageButtonPlayPause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 playPauseVideo();
+            }
+        });
+        imageButtonNext.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                nextVideo();
             }
         });
 
@@ -84,9 +102,29 @@ public class MainActivity extends AppCompatActivity implements android.support.v
             }
         });
 
+        onItemClickListenerList = new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Song song = (Song) listViewSongs.getItemAtPosition(position);
+                String itemTitle = song.getTitle();
+//                MainActivity.listSize = listViewSongs.getLeft();
+//                MainActivity.currentSong = position;
+//                searchYouTube = new SearchYouTube(mainActivity, itemTitle, mainActivity);
+//                searchYouTube.execute();
+                searchVideo(itemTitle, position);
+            }
+        };
+    }
+
+    public void searchVideo(String title, int position) {
+        listSize = listViewSongs.getLeft();
+        currentSong = position;
+        searchYouTube = new SearchYouTube(mainActivity, title, mainActivity);
+        searchYouTube.execute();
     }
 
     public void playVideo(String idVideo) {
+        playerConfig = new PlayerConfig(youTubePlayerView);
         playerConfig.loadVideo(idVideo);
     }
 
@@ -98,6 +136,19 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         }
     }
 
+    public void nextVideo() {
+
+    }
+
+    public void setListViewSongs(ListView listViewSongs) {
+        this.listViewSongs = listViewSongs;
+        this.listViewSongs.setOnItemClickListener(onItemClickListenerList);
+    }
+
+    public void setSongList(List<Song> songList) {
+        this.songList = songList;
+    }
+
     @Override
     public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
         // TODO Auto-generated method stub
@@ -107,7 +158,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     @Override
     public void onTabSelected(Tab selectedtab, FragmentTransaction arg1) {
         // TODO Auto-generated method stub
-        tabsviewPager.setCurrentItem(selectedtab.getPosition()); //update tab position on tap
+        int position = selectedtab.getPosition();
+        tabsviewPager.setCurrentItem(position); //update tab position on tap
+        if (mTabsAdapter.getItem(position) instanceof Friendsfragment) {
+
+        }
     }
 
     @Override

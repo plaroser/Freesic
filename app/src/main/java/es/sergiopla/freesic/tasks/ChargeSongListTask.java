@@ -6,7 +6,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -36,11 +35,12 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
     private String tittle;
     private TextView textViewTittle;
 
-    public ChargeSongListTask(Context context, ListView listView, TextView textViewTittle) {
+    public ChargeSongListTask(Context context, ListView listView, TextView textViewTittle, List<Song> songList) {
         super();
         this.context = context;
         this.listView = listView;
         this.textViewTittle = textViewTittle;
+        this.songList = songList;
     }
 
     protected void onPreExecute() {
