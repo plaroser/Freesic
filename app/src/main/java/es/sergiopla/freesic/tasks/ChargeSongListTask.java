@@ -51,7 +51,7 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
 
     protected String doInBackground(String... params) {
         try {
-            URL url = new URL(MainActivity.STRING_URL);
+            URL url = new URL(MainActivity.URL);
             connection = (HttpURLConnection) url.openConnection();
             connection.connect();
             InputStream stream = connection.getInputStream();

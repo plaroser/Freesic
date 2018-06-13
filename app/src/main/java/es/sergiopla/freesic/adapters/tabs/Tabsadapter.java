@@ -29,10 +29,10 @@ public class Tabsadapter  extends FragmentStatePagerAdapter{
                 return new Friendsfragment();
 
             case 1:
-                return new PublicprofileFragment();
+                return new Communityfragment();
 
             case 2:
-                return new Communityfragment();
+                return new PublicprofileFragment();
         }
 
         return null;

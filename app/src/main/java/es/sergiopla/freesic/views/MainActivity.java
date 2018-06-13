@@ -15,22 +15,27 @@ import android.widget.ListView;
 
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
 
+import java.util.HashMap;
 import java.util.List;
 
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
-import es.sergiopla.freesic.fragment.Friendsfragment;
 import es.sergiopla.freesic.helpers.PlayerConfig;
 import es.sergiopla.freesic.models.Song;
 import es.sergiopla.freesic.tasks.SearchYouTube;
 
 public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
     public static final String LOG_ID = "Freesic_Sergio";
-    public static final String STRING_URL = "https://rss.itunes.apple.com/api/v1/es/itunes-music/top-songs/all/100/non-explicit.json";
+    public static final String[] STRING_URL = {"https://rss.itunes.apple.com/api/v1/es/itunes-music/", "/all/100/non-explicit.json"};
+    public static final String CANCIONES_DEL_MOMENTO = "Canciones del momento";
+    public static final String MUSICA_NUEVA = "Música nueva";
+    public static final String LANZAMIENTOS_RECIENTES = "Lanzamientos recientes";
+    public static final String TOP_CANCIONES = "Top canciones";
     public static final String KEY_LIST = "list";
     public static final String KEY_TITTLE = "tittle";
     public static int listSize, currentSong;
     public static List<Song> songList;
+    public static String URL;
 
     private ViewPager tabsviewPager;
     private ActionBar mActionBar;
@@ -61,12 +66,12 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         getSupportActionBar().setDisplayShowHomeEnabled(false);     // hides action bar icon
         getSupportActionBar().setDisplayShowTitleEnabled(false);    // hides action bar title
         Tab friendstab = getSupportActionBar().newTab().setText("Friends").setTabListener(this);
-        Tab publicprofiletab = getSupportActionBar().newTab().setText("Public").setTabListener(this);
         Tab communitytab = getSupportActionBar().newTab().setText("Community").setTabListener(this);
+        Tab publicprofiletab = getSupportActionBar().newTab().setText("Public").setTabListener(this);
 
         getSupportActionBar().addTab(friendstab);
-        getSupportActionBar().addTab(publicprofiletab);
         getSupportActionBar().addTab(communitytab);
+        getSupportActionBar().addTab(publicprofiletab);
 
         imageButtonPlayPause.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -114,6 +119,19 @@ public class MainActivity extends AppCompatActivity implements android.support.v
                 searchVideo(itemTitle, position);
             }
         };
+    }
+
+    public static HashMap<String, String> getListItunes() {
+        HashMap<String, String> musicHashMap = new HashMap<>();
+        musicHashMap.put(CANCIONES_DEL_MOMENTO, STRING_URL[0] + "hot-tracks" + STRING_URL[1]);
+        musicHashMap.put(MUSICA_NUEVA, STRING_URL[0] + "new-music" + STRING_URL[1]);
+        musicHashMap.put(LANZAMIENTOS_RECIENTES, STRING_URL[0] + "recent-releases" + STRING_URL[1]);
+        musicHashMap.put(TOP_CANCIONES, STRING_URL[0] + "top-songs" + STRING_URL[1]);
+        return musicHashMap;
+    }
+
+    public void changeTab(int index) {
+        getSupportActionBar().setSelectedNavigationItem(index);
     }
 
     public void playPauseVideo() {
@@ -183,14 +201,19 @@ public class MainActivity extends AppCompatActivity implements android.support.v
         // TODO Auto-generated method stub
         int position = selectedtab.getPosition();
         tabsviewPager.setCurrentItem(position); //update tab position on tap
-        if (mTabsAdapter.getItem(position) instanceof Friendsfragment) {
 
-        }
     }
 
     @Override
     public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
         // TODO Auto-generated method stub
 
+    }
+
+    public void cargarLista(String url) {
+        MainActivity.URL = url;
+//        (Friendsfragment)getFragmentManager().findFragmentById(R.layout.friendsview);
+//        Friendsfragment fragment = (Friendsfragment) getFragmentManager().findFragmentById(R.layout.friendsview);
+//        fragment.cargarLista();
     }
 }
