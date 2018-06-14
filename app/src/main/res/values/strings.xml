@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Freesic</string>
+    <string name="lista_no_elegida">Upss... Aun no ha elegido una lista de reproducción. ¡¡La musica te espera!!</string>
+    <string name="cancion_no_elegida">No ha elegido ninguna canción</string>
 </resources>

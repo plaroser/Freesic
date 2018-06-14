@@ -13,6 +13,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.pierfrancescosoffritti.youtubeplayer.player.YouTubePlayerView;
 
@@ -49,6 +51,8 @@ public class MainActivity extends AppCompatActivity implements TabListener {
     private SearchYouTube searchYouTube;
     private AdapterView.OnItemClickListener onItemClickListenerList;
     private MainActivity mainActivity;
+    private TextView textViewTitleSong;
+    private ProgressBar progressBarPlay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +64,13 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         imageButtonPrevious = findViewById(R.id.imageButtonPrevious);
         imageButtonPlayPause = findViewById(R.id.imageButtonPlayPause);
         imageButtonNext = findViewById(R.id.imageButtonNext);
+        textViewTitleSong = findViewById(R.id.textViewTitleSong);
+        textViewTitleSong.setSelected(true);
         mTabsAdapter = new Tabsadapter(getSupportFragmentManager());
         tabsviewPager.setAdapter(mTabsAdapter);
+        progressBarPlay = findViewById(R.id.progressBarPlay);
+        onPlaying(false);
+        progressBarPlay.setVisibility(View.INVISIBLE);
 
         getSupportActionBar().setHomeButtonEnabled(false);
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -141,10 +150,14 @@ public class MainActivity extends AppCompatActivity implements TabListener {
     }
 
     public void playPauseVideo() {
-        if (playerConfig.isPlaying()) {
-            playerConfig.pauseVideo();
-        } else {
-            playerConfig.playVideo();
+        if (playerConfig != null) {
+            if (playerConfig.isPlaying()) {
+                playerConfig.pauseVideo();
+                imageButtonPlayPause.setImageResource(R.drawable.ic_play_arrow);
+            } else {
+                playerConfig.playVideo();
+                imageButtonPlayPause.setImageResource(R.drawable.ic_pause);
+            }
         }
     }
 
@@ -218,5 +231,20 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 //        (Friendsfragment)getFragmentManager().findFragmentById(R.layout.friendsview);
 //        Friendsfragment fragment = (Friendsfragment) getFragmentManager().findFragmentById(R.layout.friendsview);
 //        fragment.cargarLista();
+    }
+
+    public void onPlaying(boolean isPlaying) {
+        imageButtonPrevious.setEnabled(isPlaying);
+        imageButtonPlayPause.setEnabled(isPlaying);
+        imageButtonNext.setEnabled(isPlaying);
+        progressBarPlay.setVisibility((isPlaying) ? View.INVISIBLE : View.VISIBLE);
+    }
+
+    public void setTittleSong(String tittleSong) {
+        if (tittleSong != null) {
+            textViewTitleSong.setText(tittleSong);
+        } else {
+            textViewTitleSong.setText(R.string.cancion_no_elegida);
+        }
     }
 }

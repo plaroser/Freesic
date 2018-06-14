@@ -14,8 +14,8 @@ import es.sergiopla.freesic.fragment.PublicprofileFragment;
 
 public class Tabsadapter extends FragmentStatePagerAdapter {
 
-    public static final int INDEX_FRIENDS_FRAGMENT = 0;
-    public static final int INDEX_COMMUNITY_FRAGMENT = 1;
+    public static final int INDEX_COMMUNITY_FRAGMENT = 0;
+    public static final int INDEX_FRIENDS_FRAGMENT = 1;
     public static final int INDEX_PUBLIC_PROFILE_FRAGMENT = 2;
 
     private int TOTAL_TABS;
@@ -24,8 +24,8 @@ public class Tabsadapter extends FragmentStatePagerAdapter {
     public Tabsadapter(FragmentManager fm) {
         super(fm);
         fragments = new Fragment[]{
-                new Friendsfragment(),
                 new Communityfragment(),
+                new Friendsfragment(),
                 new PublicprofileFragment()};
         TOTAL_TABS = fragments.length;
     }

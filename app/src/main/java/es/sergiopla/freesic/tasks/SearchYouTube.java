@@ -92,6 +92,7 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
 
     protected void onPreExecute() {
         super.onPreExecute();
+        activity.onPlaying(false);
     }
 
     @Override
@@ -102,9 +103,11 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
 
     @Override
     protected void onPostExecute(String result) {
-//        Toast.makeText(context, videoItem.getTitle() + "|" + videoItem.getId(), Toast.LENGTH_LONG).show();
-        Log.v(MainActivity.LOG_ID, "Resultado busqueda: " + videoItem.getTitle() + " | " + videoItem.getId());
+        String titleVideo = videoItem.getTitle();
+        Log.v(MainActivity.LOG_ID, "Resultado busqueda: " + titleVideo + " | " + videoItem.getId());
         super.onPostExecute(result);
         activity.playVideo(videoItem.getId());
+        activity.setTittleSong(this.keywords);
+        activity.onPlaying(true);
     }
 }

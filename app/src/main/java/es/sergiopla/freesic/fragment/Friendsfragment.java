@@ -10,7 +10,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -25,7 +24,6 @@ import es.sergiopla.freesic.views.MainActivity;
 
 
 public class Friendsfragment extends Fragment {
-    private Button buttonGetWeb;
     private TextView textViewTitulo;
     private ListView listViewSongs;
     private Context context;
@@ -33,6 +31,7 @@ public class Friendsfragment extends Fragment {
     private List<Song> songList;
     private MainActivity mainActivity;
     private ProgressBar progressBar;
+    private TextView textViewNotList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -45,38 +44,19 @@ public class Friendsfragment extends Fragment {
         // |___|_| |_|_|\__|_|\__,_|_|_/___\__,_|\__|_|\___/|_| |_|
         super.onCreate(savedInstanceState);
         context = getActivity();
-        buttonGetWeb = view.findViewById(R.id.buttonGetWeb);
         textViewTitulo = view.findViewById(R.id.textViewTittle);
         listViewSongs = view.findViewById(R.id.listViewSongs);
         mainActivity = ((MainActivity) getActivity());
         progressBar = view.findViewById(R.id.progressBar);
-//        cargarLista();
+        textViewNotList = view.findViewById(R.id.textViewNotList);
 
-        buttonGetWeb.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                cargarLista();
-            }
-        });
-
-//        listViewSongs.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Song song = (Song) listViewSongs.getItemAtPosition(position);
-//                String itemTitle = song.getTitle();
-//                MainActivity.listSize = listViewSongs.getLeft();
-//                MainActivity.currentSong = position;
-//                searchYouTube = new SearchYouTube(context, itemTitle, ((MainActivity) getActivity()));
-//                searchYouTube.execute();
-//            }
-//        });
-        cargarLista();
         return view;
     }
 
     public void cargarLista() {
         ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList, progressBar);
         chargeSongListTask.execute();
+        textViewNotList.setVisibility(View.INVISIBLE);
         mainActivity.setListViewSongs(listViewSongs);
         mainActivity.setSongList(songList);
     }

@@ -47,7 +47,8 @@ public class PlayerConfig {
     }
 
     public void playVideo() {
-        youTubePlayer.play();
+        if (youTubePlayer != null)
+            youTubePlayer.play();
         isPlaying = true;
     }
 
