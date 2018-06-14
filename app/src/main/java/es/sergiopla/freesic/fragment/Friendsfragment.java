@@ -19,6 +19,7 @@ import java.util.List;
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.models.Song;
 import es.sergiopla.freesic.tasks.ChargeSongListTask;
+import es.sergiopla.freesic.tasks.ChargeSongListTask.TypeQuery;
 import es.sergiopla.freesic.tasks.SearchYouTube;
 import es.sergiopla.freesic.views.MainActivity;
 
@@ -54,7 +55,8 @@ public class Friendsfragment extends Fragment {
     }
 
     public void cargarLista() {
-        ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList, progressBar);
+        TypeQuery typeQuery = (MainActivity.URL.contains("itunes.apple.com/search")) ? TypeQuery.ITUNES : TypeQuery.RSS;
+        ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList, progressBar, typeQuery);
         chargeSongListTask.execute();
         textViewNotList.setVisibility(View.INVISIBLE);
         mainActivity.setListViewSongs(listViewSongs);

@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
@@ -26,6 +27,8 @@ import es.sergiopla.freesic.models.Song;
 import es.sergiopla.freesic.views.MainActivity;
 
 public class ChargeSongListTask extends AsyncTask<String, String, String> {
+    public enum TypeQuery {RSS, ITUNES}
+
     final StringBuilder builder = new StringBuilder();
     Context context;
     HttpURLConnection connection = null;
@@ -37,6 +40,7 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
     private String tittle;
     private TextView textViewTittle;
     private ProgressBar progressBar;
+    private TypeQuery typeQuery;
 
     public ChargeSongListTask(Context context, ListView listView, TextView textViewTittle, List<Song> songList, ProgressBar progressBar) {
         super();
@@ -45,6 +49,12 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
         this.textViewTittle = textViewTittle;
         this.songList = songList;
         this.progressBar = progressBar;
+        this.typeQuery = TypeQuery.RSS;
+    }
+
+    public ChargeSongListTask(Context context, ListView listView, TextView textViewTittle, List<Song> songList, ProgressBar progressBar, TypeQuery type) {
+        this(context, listView, textViewTittle, songList, progressBar);
+        this.typeQuery = type;
     }
 
     protected void onPreExecute() {
@@ -71,20 +81,25 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
                 buffer.append(line + "\n");
             }
 
-            JSONObject jsonObject = new JSONObject(buffer.toString()).getJSONObject("feed");
-            tittle = jsonObject.getString("title");
-            JSONArray songs = jsonObject.getJSONArray("results");
-            builder.append(songs.length());
-            if (songs.length() > 0) {
-                for (int i = 0; i < songs.length(); i++) {
-                    JSONObject jsonObjectSong = songs.getJSONObject(i);
-
-                    String tittle = jsonObjectSong.getString("name");
-                    String author = jsonObjectSong.getString("artistName");
-                    Song song = new Song(tittle, author);
-                    songList.add(song);
-                }
+            if (typeQuery == TypeQuery.RSS) {
+                JSONObject jsonObject = new JSONObject(buffer.toString()).getJSONObject("feed");
+                getRSS(jsonObject);
+            } else {
+                searchITunes(new JSONObject(buffer.toString()));
             }
+//            tittle = jsonObject.getString("title");
+//            JSONArray songs = jsonObject.getJSONArray("results");
+//            builder.append(songs.length());
+//            if (songs.length() > 0) {
+//                for (int i = 0; i < songs.length(); i++) {
+//                    JSONObject jsonObjectSong = songs.getJSONObject(i);
+//
+//                    String tittle = jsonObjectSong.getString("name");
+//                    String author = jsonObjectSong.getString("artistName");
+//                    Song song = new Song(tittle, author);
+//                    songList.add(song);
+//                }
+//            }
 //                    builder.append(buffer.toString());
 
 
@@ -105,12 +120,58 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
         return null;
     }
 
+    private void getRSS(JSONObject results) {
+        try {
+            tittle = results.getString("title");
+            JSONArray songs = results.getJSONArray("results");
+            builder.append(songs.length());
+            if (songs.length() > 0) {
+                for (int i = 0; i < songs.length(); i++) {
+                    JSONObject jsonObjectSong = songs.getJSONObject(i);
+
+                    String tittle = jsonObjectSong.getString("name");
+                    String author = jsonObjectSong.getString("artistName");
+                    Song song = new Song(tittle, author);
+                    songList.add(song);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void searchITunes(JSONObject results) {
+        try {
+            Log.v(MainActivity.LOG_ID, "Buscando...");
+
+            tittle = null;
+            JSONArray songs = results.getJSONArray("results");
+            builder.append(songs.length());
+            if (songs.length() > 0) {
+                for (int i = 0; i < songs.length(); i++) {
+                    JSONObject jsonObjectSong = songs.getJSONObject(i);
+                    String tittle = jsonObjectSong.getString("trackName");
+                    Log.v(MainActivity.LOG_ID, tittle);
+                    String author = jsonObjectSong.getString("artistName");
+                    Song song = new Song(tittle, author);
+                    songList.add(song);
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     @Override
     protected void onPostExecute(String result) {
         super.onPostExecute(result);
         songArrayAdapter = new AdapterSong(context, R.layout.song_item, songList);
         listView.setAdapter(songArrayAdapter);
-        textViewTittle.setText(tittle);
+        if (tittle != null) {
+            textViewTittle.setText(tittle);
+        } else {
+            textViewTittle.setText(R.string.resultado_busqueda);
+        }
         songList = new ArrayList<>(songList);
         Log.v(MainActivity.LOG_ID, "List title| " + tittle + " |size| " + songList.size());
         MainActivity.songList = songList;
