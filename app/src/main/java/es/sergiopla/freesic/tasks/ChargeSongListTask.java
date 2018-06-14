@@ -3,7 +3,9 @@ package es.sergiopla.freesic.tasks;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -34,19 +36,24 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
     private List<Song> songList;
     private String tittle;
     private TextView textViewTittle;
+    private ProgressBar progressBar;
 
-    public ChargeSongListTask(Context context, ListView listView, TextView textViewTittle, List<Song> songList) {
+    public ChargeSongListTask(Context context, ListView listView, TextView textViewTittle, List<Song> songList, ProgressBar progressBar) {
         super();
         this.context = context;
         this.listView = listView;
         this.textViewTittle = textViewTittle;
         this.songList = songList;
+        this.progressBar = progressBar;
     }
 
     protected void onPreExecute() {
         super.onPreExecute();
         songList = new ArrayList<>();
         Log.v(MainActivity.LOG_ID, "cargando lista ");
+        progressBar.setVisibility(View.VISIBLE);
+        listView.setVisibility(View.INVISIBLE);
+        textViewTittle.setVisibility(View.INVISIBLE);
     }
 
     protected String doInBackground(String... params) {
@@ -107,6 +114,9 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
         songList = new ArrayList<>(songList);
         Log.v(MainActivity.LOG_ID, "List title| " + tittle + " |size| " + songList.size());
         MainActivity.songList = songList;
+        progressBar.setVisibility(View.INVISIBLE);
+        listView.setVisibility(View.VISIBLE);
+        textViewTittle.setVisibility(View.VISIBLE);
     }
 
 

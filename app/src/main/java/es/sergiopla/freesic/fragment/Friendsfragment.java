@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import java.util.List;
@@ -31,6 +32,7 @@ public class Friendsfragment extends Fragment {
     private SearchYouTube searchYouTube;
     private List<Song> songList;
     private MainActivity mainActivity;
+    private ProgressBar progressBar;
 
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
@@ -47,6 +49,7 @@ public class Friendsfragment extends Fragment {
         textViewTitulo = view.findViewById(R.id.textViewTittle);
         listViewSongs = view.findViewById(R.id.listViewSongs);
         mainActivity = ((MainActivity) getActivity());
+        progressBar = view.findViewById(R.id.progressBar);
 //        cargarLista();
 
         buttonGetWeb.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +74,7 @@ public class Friendsfragment extends Fragment {
     }
 
     private void cargarLista() {
-        ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList);
+        ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList, progressBar);
         chargeSongListTask.execute();
         mainActivity.setListViewSongs(listViewSongs);
         mainActivity.setSongList(songList);

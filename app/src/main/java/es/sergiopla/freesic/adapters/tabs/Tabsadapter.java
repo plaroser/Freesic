@@ -43,5 +43,4 @@ public class Tabsadapter  extends FragmentStatePagerAdapter{
         // TODO Auto-generated method stub
         return TOTAL_TABS;
     }
-
 }
