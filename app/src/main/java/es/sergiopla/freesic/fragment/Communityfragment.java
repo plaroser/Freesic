@@ -19,6 +19,7 @@ import java.util.Map;
 
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.lists.AdapterListMusic;
+import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
 import es.sergiopla.freesic.views.MainActivity;
 
 public class Communityfragment extends Fragment {
@@ -42,14 +43,8 @@ public class Communityfragment extends Fragment {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                mainActivity.changeTab(0);
-
-//                mainActivity.URL = MainActivity.getListItunes().get(listOfList.get(position));
-//                ListView listView = view.findViewById(R.id.listViewSongs);
-//                TextView textViewTittle = view.findViewById(R.id.textViewTittle);
-//                new ChargeSongListTask(mainActivity, listView, textViewTittle, songList).execute();
-//                mainActivity.setSongList(songList);
                 mainActivity.cargarLista(MainActivity.getListItunes().get(listOfList.get(position)));
+                mainActivity.changeTab(Tabsadapter.INDEX_FRIENDS_FRAGMENT);
             }
         });
         adapterListMusic = new AdapterListMusic(context, R.id.ListViewLists, listOfList);

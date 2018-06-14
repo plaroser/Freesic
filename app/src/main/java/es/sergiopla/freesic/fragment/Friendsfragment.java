@@ -70,10 +70,11 @@ public class Friendsfragment extends Fragment {
 //                searchYouTube.execute();
 //            }
 //        });
+        cargarLista();
         return view;
     }
 
-    private void cargarLista() {
+    public void cargarLista() {
         ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList, progressBar);
         chargeSongListTask.execute();
         mainActivity.setListViewSongs(listViewSongs);

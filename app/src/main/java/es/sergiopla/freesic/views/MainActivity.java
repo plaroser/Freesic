@@ -6,6 +6,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
+import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
@@ -20,11 +21,12 @@ import java.util.List;
 
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
+import es.sergiopla.freesic.fragment.Friendsfragment;
 import es.sergiopla.freesic.helpers.PlayerConfig;
 import es.sergiopla.freesic.models.Song;
 import es.sergiopla.freesic.tasks.SearchYouTube;
 
-public class MainActivity extends AppCompatActivity implements android.support.v7.app.ActionBar.TabListener {
+public class MainActivity extends AppCompatActivity implements TabListener {
     public static final String LOG_ID = "Freesic_Sergio";
     public static final String[] STRING_URL = {"https://rss.itunes.apple.com/api/v1/es/itunes-music/", "/all/100/non-explicit.json"};
     public static final String CANCIONES_DEL_MOMENTO = "Canciones del momento";
@@ -131,6 +133,10 @@ public class MainActivity extends AppCompatActivity implements android.support.v
     }
 
     public void changeTab(int index) {
+        if (index == Tabsadapter.INDEX_FRIENDS_FRAGMENT) {
+            Friendsfragment fragment = (Friendsfragment) mTabsAdapter.getItem(index);
+            fragment.cargarLista();
+        }
         getSupportActionBar().setSelectedNavigationItem(index);
     }
 
@@ -192,13 +198,11 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
     @Override
     public void onTabReselected(Tab arg0, FragmentTransaction arg1) {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public void onTabSelected(Tab selectedtab, FragmentTransaction arg1) {
-        // TODO Auto-generated method stub
         int position = selectedtab.getPosition();
         tabsviewPager.setCurrentItem(position); //update tab position on tap
 
@@ -206,7 +210,6 @@ public class MainActivity extends AppCompatActivity implements android.support.v
 
     @Override
     public void onTabUnselected(Tab arg0, FragmentTransaction arg1) {
-        // TODO Auto-generated method stub
 
     }
 
