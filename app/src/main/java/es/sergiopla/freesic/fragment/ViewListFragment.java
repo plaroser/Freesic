@@ -24,7 +24,7 @@ import es.sergiopla.freesic.tasks.SearchYouTube;
 import es.sergiopla.freesic.views.MainActivity;
 
 
-public class Friendsfragment extends Fragment {
+public class ViewListFragment extends Fragment {
     private TextView textViewTitulo;
     private ListView listViewSongs;
     private Context context;
@@ -37,7 +37,7 @@ public class Friendsfragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.friendsview, container, false);
+        View view = inflater.inflate(R.layout.view_lists_fragment_view, container, false);
         //  ___       _ _   _       _ _          _   _
         // |_ _|_ __ (_) |_(_) __ _| (_)______ _| |_(_) ___  _ __
         //  | || '_ \| | __| |/ _` | | |_  / _` | __| |/ _ \| '_ \

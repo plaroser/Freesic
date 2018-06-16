@@ -23,7 +23,7 @@ import java.util.List;
 
 import es.sergiopla.freesic.R;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
-import es.sergiopla.freesic.fragment.Friendsfragment;
+import es.sergiopla.freesic.fragment.ViewListFragment;
 import es.sergiopla.freesic.helpers.PlayerConfig;
 import es.sergiopla.freesic.models.Song;
 import es.sergiopla.freesic.tasks.SearchYouTube;
@@ -76,9 +76,9 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         getSupportActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
         getSupportActionBar().setDisplayShowHomeEnabled(false);     // hides action bar icon
         getSupportActionBar().setDisplayShowTitleEnabled(false);    // hides action bar title
-        Tab friendstab = getSupportActionBar().newTab().setText("Friends").setTabListener(this);
-        Tab communitytab = getSupportActionBar().newTab().setText("Community").setTabListener(this);
-        Tab publicprofiletab = getSupportActionBar().newTab().setText("Public").setTabListener(this);
+        Tab friendstab = getSupportActionBar().newTab().setText(R.string.top_lists).setTabListener(this);
+        Tab communitytab = getSupportActionBar().newTab().setText(R.string.actual_list).setTabListener(this);
+        Tab publicprofiletab = getSupportActionBar().newTab().setText(R.string.search).setTabListener(this);
 
         getSupportActionBar().addTab(friendstab);
         getSupportActionBar().addTab(communitytab);
@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 
     public void changeTab(int index) {
         if (index == Tabsadapter.INDEX_FRIENDS_FRAGMENT) {
-            Friendsfragment fragment = (Friendsfragment) mTabsAdapter.getItem(index);
+            ViewListFragment fragment = (ViewListFragment) mTabsAdapter.getItem(index);
             fragment.cargarLista();
         }
         getSupportActionBar().setSelectedNavigationItem(index);
@@ -228,8 +228,8 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 
     public void cargarLista(String url) {
         MainActivity.URL = url;
-//        (Friendsfragment)getFragmentManager().findFragmentById(R.layout.friendsview);
-//        Friendsfragment fragment = (Friendsfragment) getFragmentManager().findFragmentById(R.layout.friendsview);
+//        (ViewListFragment)getFragmentManager().findFragmentById(R.layout.view_lists_fragment_view);
+//        ViewListFragment fragment = (ViewListFragment) getFragmentManager().findFragmentById(R.layout.view_lists_fragment_view);
 //        fragment.cargarLista();
     }
 

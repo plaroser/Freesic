@@ -5,4 +5,7 @@
     <string name="busca_tu_musica">Busca tu musica favorita</string>
     <string name="introduce_busqueda">Introduce tu busqueda aqui.</string>
     <string name="resultado_busqueda">Resultado de la busqueda</string>
+    <string name="top_lists">Top Listas</string>
+    <string name="actual_list">Lista Actual</string>
+    <string name="search">Busqueda</string>
 </resources>

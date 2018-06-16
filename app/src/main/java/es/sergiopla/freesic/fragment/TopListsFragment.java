@@ -22,7 +22,7 @@ import es.sergiopla.freesic.adapters.lists.AdapterListMusic;
 import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
 import es.sergiopla.freesic.views.MainActivity;
 
-public class Communityfragment extends Fragment {
+public class TopListsFragment extends Fragment {
     private AdapterListMusic adapterListMusic;
     private Context context;
     private ListView listView;
@@ -33,7 +33,7 @@ public class Communityfragment extends Fragment {
                              Bundle savedInstanceState) {
         context = getActivity();
         mainActivity = ((MainActivity) getActivity());
-        View view = inflater.inflate(R.layout.communityview, container, false);
+        View view = inflater.inflate(R.layout.top_lists_fragment_view, container, false);
         listView = view.findViewById(R.id.ListViewLists);
         final List<String> listOfList = new ArrayList<>();
         for (Map.Entry<String, String> entry : MainActivity.getListItunes().entrySet()) {

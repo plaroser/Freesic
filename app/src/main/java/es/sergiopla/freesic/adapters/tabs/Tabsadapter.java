@@ -8,9 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import es.sergiopla.freesic.fragment.Communityfragment;
-import es.sergiopla.freesic.fragment.Friendsfragment;
-import es.sergiopla.freesic.fragment.PublicprofileFragment;
+import es.sergiopla.freesic.fragment.SearchFragment;
+import es.sergiopla.freesic.fragment.TopListsFragment;
+import es.sergiopla.freesic.fragment.ViewListFragment;
 
 public class Tabsadapter extends FragmentStatePagerAdapter {
 
@@ -24,9 +24,9 @@ public class Tabsadapter extends FragmentStatePagerAdapter {
     public Tabsadapter(FragmentManager fm) {
         super(fm);
         fragments = new Fragment[]{
-                new Communityfragment(),
-                new Friendsfragment(),
-                new PublicprofileFragment()};
+                new TopListsFragment(),
+                new ViewListFragment(),
+                new SearchFragment()};
         TOTAL_TABS = fragments.length;
     }
 

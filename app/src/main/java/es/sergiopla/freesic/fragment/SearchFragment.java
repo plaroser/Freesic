@@ -22,7 +22,7 @@ import es.sergiopla.freesic.adapters.tabs.Tabsadapter;
 import es.sergiopla.freesic.views.MainActivity;
 
 
-public class PublicprofileFragment extends Fragment {
+public class SearchFragment extends Fragment {
     private static final String[] URL_SEARCH = {"https://itunes.apple.com/search?term=", "&entity=song"};
 
     private MainActivity mainActivity;
@@ -37,7 +37,7 @@ public class PublicprofileFragment extends Fragment {
         //  | || '_ \| | __| |/ _` | | |_  / _` | __| |/ _ \| '_ \
         //  | || | | | | |_| | (_| | | |/ / (_| | |_| | (_) | | | |
         // |___|_| |_|_|\__|_|\__,_|_|_/___\__,_|\__|_|\___/|_| |_|
-        View view = inflater.inflate(R.layout.publicprofileview, container, false);
+        View view = inflater.inflate(R.layout.search_fragment_view, container, false);
         mainActivity = ((MainActivity) getActivity());
         imageButtonSearch = view.findViewById(R.id.imageButtonSearch);
         imageButtonSearch.setEnabled(false);
