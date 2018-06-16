@@ -4,6 +4,8 @@ package es.sergiopla.freesic.fragment;
  * Created by Sergio on 5/24/2018.
  */
 
+import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
@@ -42,9 +45,13 @@ public class PublicprofileFragment extends Fragment {
 
         editTextSearch.setOnKeyListener(new View.OnKeyListener() {
             @Override
-            public boolean onKey(View view, int i, KeyEvent keyEvent) {
+            public boolean onKey(View view, int keyCode, KeyEvent keyEvent) {
                 String temporalText = editTextSearch.getText().toString();
                 imageButtonSearch.setEnabled(!temporalText.isEmpty());
+                //Whenever you got user click enter. Get text in edittext and check it equal test1.
+                if (keyCode == KeyEvent.KEYCODE_ENTER) {
+                    search();
+                }
                 return false;
             }
         });
@@ -52,10 +59,7 @@ public class PublicprofileFragment extends Fragment {
         imageButtonSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                String temporalText = editTextSearch.getText().toString();
-                String url = makeURLSearch(temporalText);
-                mainActivity.cargarLista(url);
-                mainActivity.changeTab(Tabsadapter.INDEX_FRIENDS_FRAGMENT);
+                search();
             }
         });
 
@@ -71,5 +75,18 @@ public class PublicprofileFragment extends Fragment {
             return query;
         }
         return null;
+    }
+
+    private void search() {
+        hideKeyboardFrom(mainActivity, editTextSearch);
+        String temporalText = editTextSearch.getText().toString();
+        String url = makeURLSearch(temporalText);
+        mainActivity.cargarLista(url);
+        mainActivity.changeTab(Tabsadapter.INDEX_FRIENDS_FRAGMENT);
+    }
+
+    public static void hideKeyboardFrom(Context context, View view) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
     }
 }
