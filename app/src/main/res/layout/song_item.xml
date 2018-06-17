@@ -13,7 +13,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
-        android:text="Tittle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/textViewNum"
         app:layout_constraintTop_toTopOf="parent" />
@@ -25,7 +24,6 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginTop="8dp"
-        android:text="Author"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/textViewTittle"
@@ -38,7 +36,6 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:text="Num"
         app:layout_constraintEnd_toStartOf="@+id/textViewTittle"
         app:layout_constraintHorizontal_chainStyle="spread_inside"
         app:layout_constraintStart_toStartOf="parent"
