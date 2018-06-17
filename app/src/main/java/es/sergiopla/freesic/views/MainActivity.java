@@ -8,6 +8,8 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBar.Tab;
 import android.support.v7.app.ActionBar.TabListener;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -130,6 +132,25 @@ public class MainActivity extends AppCompatActivity implements TabListener {
                 searchVideo(itemTitle, position);
             }
         };
+
+        textViewTitleSong.addTextChangedListener(new TextWatcher() {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+//                Set ic_pause
+                imageButtonPlayPause.setImageResource(R.drawable.ic_pause);
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+            }
+        });
     }
 
     public static HashMap<String, String> getListItunes() {
@@ -141,14 +162,22 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         return musicHashMap;
     }
 
+    /**
+     * Change active tab
+     *
+     * @param index index of selected tab
+     */
     public void changeTab(int index) {
         if (index == Tabsadapter.INDEX_FRIENDS_FRAGMENT) {
             ViewListFragment fragment = (ViewListFragment) mTabsAdapter.getItem(index);
-            fragment.cargarLista();
+            fragment.loadList();
         }
         getSupportActionBar().setSelectedNavigationItem(index);
     }
 
+    /**
+     * set play or pause this playing
+     */
     public void playPauseVideo() {
         if (playerConfig != null) {
             if (playerConfig.isPlaying()) {
@@ -161,6 +190,9 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         }
     }
 
+    /**
+     * Play the next video if is possible
+     */
     public void nextVideo() {
         int nextPosition = currentSong + 1;
         if (nextPosition < listSize && nextPosition >= 0) {
@@ -172,6 +204,9 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         }
     }
 
+    /**
+     * Play the prev video if is possible
+     */
     public void prevVideo() {
         int prevPosition = currentSong - 1;
         if (prevPosition < listSize && prevPosition >= 0) {
@@ -186,6 +221,12 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         }
     }
 
+    /**
+     * Search a video from a title
+     *
+     * @param title    Title to search
+     * @param position Position of title
+     */
     public void searchVideo(String title, int position) {
         Log.v(LOG_ID, "Reproduciendo: " + title);
 
@@ -195,6 +236,11 @@ public class MainActivity extends AppCompatActivity implements TabListener {
         searchYouTube.execute();
     }
 
+    /**
+     * Play a video from a id
+     *
+     * @param idVideo Id for play
+     */
     public void playVideo(String idVideo) {
         playerConfig = new PlayerConfig(youTubePlayerView);
         playerConfig.loadVideo(idVideo);
@@ -228,11 +274,13 @@ public class MainActivity extends AppCompatActivity implements TabListener {
 
     public void cargarLista(String url) {
         MainActivity.URL = url;
-//        (ViewListFragment)getFragmentManager().findFragmentById(R.layout.view_lists_fragment_view);
-//        ViewListFragment fragment = (ViewListFragment) getFragmentManager().findFragmentById(R.layout.view_lists_fragment_view);
-//        fragment.cargarLista();
     }
 
+    /**
+     * It establishes that the reproduction is active
+     *
+     * @param isPlaying
+     */
     public void onPlaying(boolean isPlaying) {
         imageButtonPrevious.setEnabled(isPlaying);
         imageButtonPlayPause.setEnabled(isPlaying);

@@ -66,6 +66,12 @@ public class SearchFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Make a URL from a string query
+     *
+     * @param query
+     * @return
+     */
     private String makeURLSearch(String query) {
         if (!query.isEmpty()) {
             query = query.trim().replaceAll("[^a-zA-Z0-9 ]+", "").replaceAll(" +", " ").toLowerCase().replaceAll(" ", "+");

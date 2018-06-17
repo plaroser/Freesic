@@ -87,23 +87,10 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
             } else {
                 searchITunes(new JSONObject(buffer.toString()));
             }
-//            tittle = jsonObject.getString("title");
-//            JSONArray songs = jsonObject.getJSONArray("results");
-//            builder.append(songs.length());
-//            if (songs.length() > 0) {
-//                for (int i = 0; i < songs.length(); i++) {
-//                    JSONObject jsonObjectSong = songs.getJSONObject(i);
-//
-//                    String tittle = jsonObjectSong.getString("name");
-//                    String author = jsonObjectSong.getString("artistName");
-//                    Song song = new Song(tittle, author);
-//                    songList.add(song);
-//                }
-//            }
-//                    builder.append(buffer.toString());
 
-
-        } catch (Exception e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
             e.printStackTrace();
         } finally {
             if (connection != null) {
@@ -120,6 +107,11 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
         return null;
     }
 
+    /**
+     * Get a RSS results from a JSON Objet
+     *
+     * @param results
+     */
     private void getRSS(JSONObject results) {
         try {
             tittle = results.getString("title");
@@ -140,6 +132,10 @@ public class ChargeSongListTask extends AsyncTask<String, String, String> {
         }
     }
 
+    /**
+     * Get a iTunes search from a JSON Object
+     * @param results
+     */
     private void searchITunes(JSONObject results) {
         try {
             Log.v(MainActivity.LOG_ID, "Buscando...");

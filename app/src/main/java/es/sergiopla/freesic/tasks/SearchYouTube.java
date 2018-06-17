@@ -40,6 +40,11 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
         youtubeConnector(content);
     }
 
+    /**
+     * Connect youtube for a context
+     *
+     * @param context
+     */
     private void youtubeConnector(Context context) {
         youtube = new YouTube.Builder(new NetHttpTransport(),
                 new JacksonFactory(), new HttpRequestInitializer() {
@@ -58,6 +63,11 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
         }
     }
 
+    /**
+     * Search a list of video from a keywords
+     * @param keywords
+     * @return
+     */
     private List<VideoItem> search(String keywords) {
         query.setQ(keywords);
         Log.v(MainActivity.LOG_ID, "Buscando video: " + keywords);
@@ -81,6 +91,11 @@ public class SearchYouTube extends AsyncTask<String, String, String> {
         }
     }
 
+    /**
+     * Search a video iten from a keywords
+     * @param keywords
+     * @return
+     */
     private VideoItem viewVideo(String keywords) {
         List<VideoItem> videoItemList = search(keywords);
         if (videoItemList.size() > 0) {

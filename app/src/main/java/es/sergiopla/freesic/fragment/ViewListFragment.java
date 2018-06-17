@@ -54,7 +54,10 @@ public class ViewListFragment extends Fragment {
         return view;
     }
 
-    public void cargarLista() {
+    /**
+     * Load a list from a URL established
+     */
+    public void loadList() {
         TypeQuery typeQuery = (MainActivity.URL.contains("itunes.apple.com/search")) ? TypeQuery.ITUNES : TypeQuery.RSS;
         ChargeSongListTask chargeSongListTask = new ChargeSongListTask(context, listViewSongs, textViewTitulo, songList, progressBar, typeQuery);
         chargeSongListTask.execute();
@@ -71,6 +74,10 @@ public class ViewListFragment extends Fragment {
         return songList;
     }
 
+    /**
+     * Search in YouTube from a title song
+     * @param title
+     */
     private void searchYoutube(String title) {
         searchYouTube = new SearchYouTube(context, title, ((MainActivity) getActivity()));
         searchYouTube.execute();
